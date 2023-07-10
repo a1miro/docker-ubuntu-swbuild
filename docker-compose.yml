@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-    rogueddk:
+    swbuild:
         build:
             context: .
             dockerfile: Dockerfile
@@ -9,13 +9,9 @@ services:
                 uid: ${uid}
                 gid: ${gid}
                 username: ${username}
-                workspace: ${workspace}
-        image: rogueddk-ubuntu 
-        container_name: rogueddk-ubuntu
+        image: swbuild-ubuntu-${username} 
+        container_name: swbuild-ubuntu
         restart: on-failure
-        #command: /bin/bash
-        volumes:
-            - ${workspace}:/home/${username}/workspace:rw
         environment:
             - ALLOW_EMPTY_PASSWORD=yes
             - TZ=Europe/London

@@ -8,7 +8,6 @@ SHELL ["/bin/bash", "-c"]
 ARG uid
 ARG gid
 ARG username
-ARG workspace
 ARG kernel_id
 
 # setting repository for getting vulkan-sdk
