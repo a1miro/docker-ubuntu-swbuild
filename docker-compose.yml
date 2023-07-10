@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+    rogueddk:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                uid: ${uid}
+                gid: ${gid}
+                username: ${username}
+                workspace: ${workspace}
+        image: rogueddk-ubuntu 
+        container_name: rogueddk-ubuntu
+        restart: on-failure
+        #command: /bin/bash
+        volumes:
+            - ${workspace}:/home/${username}/workspace:rw
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+            - TZ=Europe/London
+            - DEBIAN_FRONTEND=noninteractive
+        tty: true
