@@ -9,7 +9,7 @@ services:
                 uid: ${uid}
                 gid: ${gid}
                 username: ${username}
-        image: swbuild-ubuntu-${username} 
+        image: swbuild-ubuntu 
         container_name: swbuild-ubuntu
         restart: on-failure
         environment:
