@@ -16,4 +16,11 @@ services:
             - ALLOW_EMPTY_PASSWORD=yes
             - TZ=Europe/London
             - DEBIAN_FRONTEND=noninteractive
+            - VCPKG_ROOT=/opt/vcpkg
+        volumes:
+            - homedir:/home
+            - vcpkgrootdir:/opt/vcpkg
         tty: true
+volumes:
+    homedir:
+    vcpkgrootdir:
