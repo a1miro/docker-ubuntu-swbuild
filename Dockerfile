@@ -86,5 +86,10 @@ RUN apt-get -y update
 RUN apt-get -y install vulkan-sdk
 RUN apt-get -y upgrade cmake
 
+# install vcpkg
+RUN mkdir -p /opt/vcpkg
+RUN chown ${username}:${username} /opt/vcpkg
+
+USER ${username}
 RUN git clone https://github.com/Microsoft/vcpkg.git /opt/vcpkg
 RUN /opt/vcpkg/bootstrap-vcpkg.sh
