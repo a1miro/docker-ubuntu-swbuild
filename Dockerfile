@@ -93,3 +93,5 @@ RUN chown ${username}:${username} /opt/vcpkg
 USER ${username}
 RUN git clone https://github.com/Microsoft/vcpkg.git /opt/vcpkg
 RUN /opt/vcpkg/bootstrap-vcpkg.sh
+
+CMD ["/bin/bash"]
