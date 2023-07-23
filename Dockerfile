@@ -40,11 +40,11 @@ RUN apt-get -y install xfonts-utils xsltproc x11-xkb-utils
 RUN apt-get -y install gcc-multilib g++-multilib
 RUN apt-get -y install clang
 RUN apt-get -y install libclang1 python-is-python3 python3-clang
-RUN apt-get -y install git python3-git 
+RUN apt-get -y install git python3-git
 
 RUN pip3 install  --trusted-host pypi.org  --trusted-host files.pythonhosted.org meson
 
-RUN apt-get -y install iputils-ping 
+RUN apt-get -y install iputils-ping
 
 RUN apt-get -y install openssh-server openssh-client openssl
 RUN apt-get -y install  net-tools iproute2
@@ -57,7 +57,7 @@ RUN apt-get -y install curl
 RUN apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
 RUN apt-get -y install libxrandr-dev libxi-dev
 
-RUN apt-get -y install expect 
+RUN apt-get -y install expect
 
 RUN groupadd -g ${gid} ${username}
 RUN useradd -l -u ${uid} -g ${gid} -m ${username}
@@ -82,16 +82,24 @@ RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/nul
 
 RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
-RUN apt-get -y update 
+RUN apt-get -y update
 RUN apt-get -y install vulkan-sdk
 RUN apt-get -y upgrade cmake
+
+# Change from Ubuntu default dash shell to bash
+RUN ln -sf /bin/bash sh
 
 # install vcpkg
 RUN mkdir -p /opt/vcpkg
 RUN chown ${username}:${username} /opt/vcpkg
 
+# Start SSH server
+EXPOSE 22
+
 USER ${username}
 RUN git clone https://github.com/Microsoft/vcpkg.git /opt/vcpkg
 RUN /opt/vcpkg/bootstrap-vcpkg.sh
 
-CMD ["/bin/bash"]
+USER root
+CMD /etc/init.d/ssh start && /bin/bash
+

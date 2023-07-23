@@ -20,6 +20,7 @@ services:
         volumes:
             - homedir:/home
             - vcpkgrootdir:/opt/vcpkg
+        hostname: swbuild
         tty: true
 volumes:
     homedir:
