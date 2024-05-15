@@ -19,9 +19,9 @@ services:
             - VCPKG_ROOT=/opt/vcpkg
         volumes:
             - homedir:/home
-            - vcpkgrootdir:/opt/vcpkg
+            - appsdir:/opt/apps
         hostname: swbuild
         tty: true
 volumes:
     homedir:
-    vcpkgrootdir:
+    appsdir:
