@@ -21,6 +21,8 @@ services:
             - homedir:/home
             - appsdir:/opt/apps
         hostname: swbuild
+        ports:
+          - 8000:8000
         tty: true
 volumes:
     homedir:
