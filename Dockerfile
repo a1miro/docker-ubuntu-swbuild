@@ -1,5 +1,5 @@
 #·Composing IMG DDK build environment
-FROM ubuntu:24.04
+FROM ubuntu:20.04
 LABEL maintainer="andrei.mironenko@gmail.com"
 ENV REFRESHED_AT 2023-04-17
 ENV DEBIAN_FRONTEND=noninteractive
@@ -29,23 +29,28 @@ RUN apt-get -y install ninja-build
 RUN apt-get -y install build-essential
 RUN apt-get -y install bison flex gawk gcc g++ llvm m4 patch
 RUN apt-get -y install make ninja-build pkg-config tar zip
-RUN apt-get -y install automake bc cmake dpkg-dev libelf-dev libncurses5-dev
-RUN apt-get -y install libssl-dev mesa-common-dev opencl-headers perl texinfo
+RUN apt-get -y install automake bc dpkg-dev libelf-dev libncurses5-dev
+RUN apt-get -y install libssl-dev  perl texinfo
 RUN apt-get -y install wget xutils-dev
 
 RUN apt-get -y install libdrm-dev libunwind-dev zlib1g-dev
 RUN apt-get -y install autopoint gettext gperf intltool libglib2.0-dev
-RUN apt-get -y install libltdl-dev libtool python3-libxml2 python3-mako python3-pip
-RUN apt-get -y install git python3-git
+RUN apt-get -y install libltdl-dev libtool 
+RUN apt-get -y install git
 RUN apt-get -y install xfonts-utils xsltproc x11-xkb-utils
 RUN apt-get -y install gcc-multilib g++-multilib
 RUN apt-get -y install clang
-RUN apt-get -y install libclang1 python-is-python3 python3-clang
+RUN apt-get -y install libclang1 
+
+# Install python2
+RUN apt-get -y install python-libxml2 python-mako python-pip python-git python-clang
+#RUN apt-get -y install python-is-python3
 
 # Graphics related packages
 #RUN pip3 install  --trusted-host pypi.org  --trusted-host files.pythonhosted.org meson
 #RUN apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
 #RUN apt-get -y install libxrandr-dev libxi-dev
+#RUN apt-get -y install mesa-common-dev opencl-headers
 
 RUN apt-get -y install iputils-ping
 
@@ -88,7 +93,7 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /
 
 # setting repository for getting latest version of the CMake
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 RUN apt-get -y update
 # RUN apt-get -y install vulkan-sdk
