@@ -12,8 +12,8 @@ ARG username
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get -y install apt-utils
-
 # Set locales to en_US.UTF-8
+
 RUN apt-get -y install locales
 RUN locale-gen en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8
@@ -43,7 +43,8 @@ RUN apt-get -y install clang
 RUN apt-get -y install libclang1 
 
 # Install python2
-RUN apt-get -y install python-libxml2 python-mako python-pip python-git python-clang
+#RUN apt-get -y install python2-libxml2 python2-mako python2-pip python2-git python2-clang
+RUN apt-get -y install python 
 #RUN apt-get -y install python-is-python3
 
 # Graphics related packages
@@ -69,11 +70,8 @@ RUN apt-get -y install indent
 RUN apt-get -y install gpg ca-certificates wget
 
 # Packages required by Ycto
-RUN apt-get -y install chrpath cpio diffstat liblz4-tool pigz zstd 
-
-# For some reason the ubuntu user with UID/GID 1000 is created by default in the ubuntu:20.04 image
-# Remove the user to avoid conflicts with the host user
-RUN userdel -r ubuntu
+RUN apt-get -y install chrpath cpio diffstat liblz4-tool pigz zstd
+RUN apt-get -y install git-lfs gfortran 
 
 # Create a non-root user with the same UID/GID as the host user
 RUN groupadd -g ${gid} ${username}
@@ -93,7 +91,7 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /
 
 # setting repository for getting latest version of the CMake
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 RUN apt-get -y update
 # RUN apt-get -y install vulkan-sdk
