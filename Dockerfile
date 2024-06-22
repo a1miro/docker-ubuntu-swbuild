@@ -1,5 +1,5 @@
 #·Composing IMG DDK build environment
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 LABEL maintainer="andrei.mironenko@gmail.com"
 ENV REFRESHED_AT 2023-04-17
 ENV DEBIAN_FRONTEND=noninteractive
@@ -62,7 +62,7 @@ RUN apt-get -y install openjdk-11-jdk
 RUN apt-get -y install screen
 RUN apt-get -y install tmux
 
-RUN apt-get -y install libstb-dev
+#RUN apt-get -y install libstb-dev
 RUN apt-get -y install curl
 
 RUN apt-get -y install expect
@@ -90,12 +90,13 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /
 # RUN wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
 
 # setting repository for getting latest version of the CMake
-RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+#RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+#RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 RUN apt-get -y update
 # RUN apt-get -y install vulkan-sdk
-RUN apt-get -y upgrade cmake
+#RUN apt-get -y upgrade cmake
+RUN apt-get -y install cmake
 
 # Change from Ubuntu default dash shell to bash
 RUN ln -sf bash /bin/sh
@@ -111,6 +112,11 @@ RUN awk -v path="${repodir}" -F= -i inplace '/^PATH/ { gsub(/"/, "", $2); print 
 
 # Start SSH server
 EXPOSE 22
+
+# Set locale to LANG=en_US.UTF-8
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 USER ${username}
 RUN git clone https://github.com/Microsoft/vcpkg.git ${vcpkgdir} 
