@@ -1,7 +1,7 @@
 #·Composing IMG DDK build environment
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 LABEL maintainer="andrei.mironenko@gmail.com"
-ENV REFRESHED_AT 2023-04-17
+ENV REFRESHED_AT 2024-06-17
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
@@ -42,10 +42,9 @@ RUN apt-get -y install gcc-multilib g++-multilib
 RUN apt-get -y install clang
 RUN apt-get -y install libclang1 
 
-# Install python2
-#RUN apt-get -y install python2-libxml2 python2-mako python2-pip python2-git python2-clang
-RUN apt-get -y install python 
-#RUN apt-get -y install python-is-python3
+# Install python3
+RUN apt-get -y install python3 python3-libxml2 python3-mako python3-pip python3-git python3-clang
+RUN apt-get -y install python-is-python3
 
 # Graphics related packages
 #RUN pip3 install  --trusted-host pypi.org  --trusted-host files.pythonhosted.org meson
@@ -91,7 +90,7 @@ RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /
 
 # setting repository for getting latest version of the CMake
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 RUN apt-get -y update
 # RUN apt-get -y install vulkan-sdk
