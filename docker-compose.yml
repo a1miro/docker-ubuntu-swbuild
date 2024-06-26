@@ -1,5 +1,5 @@
 services:
-    swbuild:
+    swbuild-22.04:
         build:
             context: .
             dockerfile: Dockerfile
@@ -7,8 +7,8 @@ services:
                 uid: ${uid}
                 gid: ${gid}
                 username: ${username}
-        image: swbuild-ubuntu 
-        container_name: swbuild-ubuntu
+        image: swbuild-ubuntu-22.04 
+        container_name: swbuild-ubuntu-22.04
         restart: on-failure
         environment:
             - ALLOW_EMPTY_PASSWORD=yes
@@ -18,9 +18,9 @@ services:
         volumes:
             - homedir:/home
             - appsdir:/opt/apps
-        hostname: swbuild
+        hostname: swbuild-2204
         ports:
-          - 8000:8000
+          - 8024:8024
         tty: true
 volumes:
     homedir:

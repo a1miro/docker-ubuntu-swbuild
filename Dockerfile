@@ -71,6 +71,7 @@ RUN apt-get -y install gpg ca-certificates wget
 # Packages required by Ycto
 RUN apt-get -y install chrpath cpio diffstat liblz4-tool pigz zstd
 RUN apt-get -y install git-lfs gfortran 
+RUN apt-get -y install libgnutls28-dev
 
 # Create a non-root user with the same UID/GID as the host user
 RUN groupadd -g ${gid} ${username}
