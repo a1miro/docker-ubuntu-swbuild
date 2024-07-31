@@ -36,7 +36,7 @@ RUN apt-get -y install wget xutils-dev
 RUN apt-get -y install libdrm-dev libunwind-dev zlib1g-dev
 RUN apt-get -y install autopoint gettext gperf intltool libglib2.0-dev
 RUN apt-get -y install libltdl-dev libtool 
-RUN apt-get -y install git
+RUN apt-get -y install git-all
 RUN apt-get -y install xfonts-utils xsltproc x11-xkb-utils
 RUN apt-get -y install gcc-multilib g++-multilib
 RUN apt-get -y install clang
