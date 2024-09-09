@@ -1,5 +1,5 @@
 services:
-    swbuild:
+    swbuild-ubuntu-18.04:
         build:
             context: .
             dockerfile: Dockerfile
@@ -7,7 +7,7 @@ services:
                 uid: ${uid}
                 gid: ${gid}
                 username: ${username}
-        image: swbuild-ubuntu 
+        image: swbuild-ubuntu-18.04
         container_name: swbuild-ubuntu
         restart: on-failure
         environment:
@@ -18,9 +18,7 @@ services:
         volumes:
             - homedir:/home
             - appsdir:/opt/apps
-        hostname: swbuild
-        ports:
-          - 8000:8000
+        hostname: swbuild-ubuntu-18.04
         tty: true
 volumes:
     homedir:
