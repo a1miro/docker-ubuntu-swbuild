@@ -1,6 +1,36 @@
+## Introduction
+
+This Docker container is based on ubuntu:22.04 and it can be used for building software written in C/C++, using CMake, automake/autoconfig and Bazel build system. Here is the list of installed tools:
+
+| Tool                | Version  |
+|---------------------|----------|
+| gcc/g++             | 11.4     |
+| clang               | 14.0.0   |
+| python              | 3.10     |
+| pip                 | 22.0.2   |
+| Make                | 4.3      |
+| Cmake               | 3.29     |
+| Git                 | 2.34.1   |
+| Yocto\*             | 5.0      |
+
+
+Additionally it includes Microsoft VCPKG package manager for retrieving dependencies in C/C++ application development. More about VCPKG and it's integration can be found [here](https://vcpkg.io/en/). Configure the VCPKG_ROOT environment variable:
+
+```sh
+export VCPKG_ROOT="/opt/apps/vcpkg"
+export PATH="${VCPKG_ROOT};${PATH}"
+```
+
+For the support of Yocto/Poky (Scarthgap 5.0) build all required packages are installed. Most of Yocto BSP vendors rely on Google repo tool for retrieving Yocto sources, wherefore it's been installed and can be accessed from inside the contrainer:
+
+```sh
+/opt/apps/repo
+```
+<small> Yocto\* is not installed inside the container, but container can be used to build ***Yocto*** Scarthgap 5.0 </small>
 
 
 ## Building and Running Docker container
+
 Clone docker container and checkout ubuntu.22.04
 
 ```sh
@@ -69,12 +99,27 @@ username@swbuild-2204:~$
 
 ## Customize the container by adding docker-compose.override.yml with similar context:
 
-```
+Look at the example below
+
+```yml
 services:
-    rogueddk:
-        build:
-            args:
-                kernel_id: 5.15.0-76-generic
-        volumes:
-            -  /c/Users/Andrei.Mironenko/.ssh:/home/${username}/.ssh:ro
+  swbuild-22.04:
+    build:
+      args: 
+        username: ${username}
+    volumes:
+      -  /home/${username}:/mnt/host/home/${username}:rw
 ```
+as I mentioned early .env file passed these three environment variables to the YAML
+
+```
+uid=1002
+gid=1002
+username=amironenko
+```
+
+we use **username** to setup Yaml uernmae argument and mount host user home folder under /mnt/host/home inside the container.
+
+## Accessing volumes
+### Windows
+### Linux

@@ -79,16 +79,6 @@ RUN useradd -l -u ${uid} -g ${gid} -m ${username}
 
 RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /etc/ssh/ssh_config
 
-#RUN echo "check_certificate = off" >> /home/${username}/.wgetrc
-#RUN chown ${username}:${username} /home/${username}/.wgetrc
-
-# install Ubuntu target linux-headers package which is required for build kernel module in a container
-#RUN apt-get -y install linux-headers-${kernel_id}
-
-# setting repository for getting vulkan-sdk
-# RUN wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add -
-# RUN wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
-
 # setting repository for getting latest version of the CMake
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
 RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
