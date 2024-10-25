@@ -73,6 +73,9 @@ RUN apt-get -y install chrpath cpio diffstat liblz4-tool pigz zstd
 RUN apt-get -y install git-lfs gfortran 
 RUN apt-get -y install libgnutls28-dev
 
+# Source code indexing tools
+RUN apt-get -y install universal-ctags cscope
+
 # Create a non-root user with the same UID/GID as the host user
 RUN groupadd -g ${gid} ${username}
 RUN useradd -l -u ${uid} -g ${gid} -m ${username}
