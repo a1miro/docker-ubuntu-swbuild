@@ -18,6 +18,7 @@ services:
         volumes:
             - homedir:/home
             - appsdir:/opt/apps
+            - buildcachedir:/opt/cache
         hostname: swbuild-2204
         ports:
           - 8024:8024
@@ -25,3 +26,4 @@ services:
 volumes:
     homedir:
     appsdir:
+    buildcachedir:

@@ -107,6 +107,11 @@ RUN chown ${username}:${username} ${appsdir}
 RUN awk -v path="${vcpkgdir}" -F= -i inplace '/^PATH/ { gsub(/"/, "", $2); print $1 FS "\"" $2 ":" path "\""; next } 1' /etc/environment
 RUN awk -v path="${repodir}" -F= -i inplace '/^PATH/ { gsub(/"/, "", $2); print $1 FS "\"" $2 ":" path "\""; next } 1' /etc/environment
 
+# set permission for /opt/cache, which is the docker volume buildcachedir
+ENV buildcachedir="/opt/cache"
+RUN mkdir -p ${buildcachedir}
+RUN chown ${username}:${username} ${buildcachedir}
+
 # Start SSH server
 EXPOSE 22
 
