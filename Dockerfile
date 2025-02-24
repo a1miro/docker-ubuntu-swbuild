@@ -46,6 +46,7 @@ RUN apt-get -y install libclang1
 RUN apt-get -y install python3 python3-libxml2 python3-mako python3-pip python3-git python3-clang
 RUN apt-get -y install python-is-python3
 
+
 # Graphics related packages
 #RUN pip3 install  --trusted-host pypi.org  --trusted-host files.pythonhosted.org meson
 #RUN apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
@@ -108,6 +109,10 @@ RUN awk -v path="${repodir}" -F= -i inplace '/^PATH/ { gsub(/"/, "", $2); print 
 
 # Start SSH server
 EXPOSE 22
+
+# Install kas tool, it's similar to Google repo and it retrieves multiple git repositories
+# for Yocto build
+RUN pip3 install kas
 
 USER ${username}
 RUN git clone https://github.com/Microsoft/vcpkg.git ${vcpkgdir} 
