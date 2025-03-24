@@ -81,6 +81,9 @@ RUN apt-get -y install quilt
 # Unix man-pages generator from markdown files 
 RUN apt-get -y install ronn
 
+# Install bash-completion tool
+RUN apt-get -y install bash-completion
+
 # Create a non-root user with the same UID/GID as the host user
 RUN groupadd -g ${gid} ${username}
 RUN useradd -l -u ${uid} -g ${gid} -m ${username}
