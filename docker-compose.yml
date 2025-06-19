@@ -4,9 +4,8 @@ services:
             context: .
             dockerfile: Dockerfile
             args:
-                uid: ${uid}
-                gid: ${gid}
-                username: ${username}
+                user_list: ${user_list}
+                docker_gid: ${docker_gid}
         image: swbuild-ubuntu-22.04 
         container_name: swbuild-ubuntu-22.04
         restart: on-failure
