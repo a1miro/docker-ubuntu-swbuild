@@ -1,5 +1,5 @@
 #·Composing IMG DDK build environment
-FROM ubuntu:22.04
+FROM ubuntu:22.04@sha256:da5fdf346e5313bef2a3dd2476c0251d48103213a5e3a0cb3afbb8909f3cf50f
 LABEL maintainer="andrei.mironenko@gmail.com"
 ENV REFRESHED_AT 2024-06-17
 ENV DEBIAN_FRONTEND=noninteractive
