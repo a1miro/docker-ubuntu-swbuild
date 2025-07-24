@@ -1,15 +1,15 @@
 ## Introduction
 
-This Docker container is based on ubuntu:22.04 and it can be used for building software written in C/C++, using CMake, automake/autoconfig and Bazel build system. Here is the list of installed tools:
+This Docker container is based on ubuntu:22.04@sha256:da5fdf346e5313bef2a3dd2476c0251d48103213a5e3a0cb3afbb8909f3cf50f and it can be used for building software written in C/C++, using CMake, automake/autoconfig, Bazel and Yocto Scarthgap 5.x build system. Here is the list of the most important packages and their versions:
 
 | Tool                | Version  |
 |---------------------|----------|
 | gcc/g++             | 11.4     |
 | clang               | 14.0.0   |
-| python              | 3.10     |
+| python              | 3.10.12  |
 | pip                 | 22.0.2   |
 | Make                | 4.3      |
-| Cmake               | 3.29     |
+| Cmake               | 4.0.3    |
 | Git                 | 2.34.1   |
 | Yocto\*             | 5.0      |
 
