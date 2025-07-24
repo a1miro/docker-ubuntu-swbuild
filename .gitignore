@@ -1,4 +1,19 @@
+# Ignore Docker-related files
 .env
-*.*~
+docker_entrypoint.sh
+*.log
+*.pid
+
+# Docker build output
+**/build/
+**/dist/
+**/__pycache__/
+
+# Ignore Docker Compose override files
 docker-compose.override.yml
-.vscode/
+
+# Ignore editor and OS files
+*.swp
+*.swo
+*.bak
+*.vscode
