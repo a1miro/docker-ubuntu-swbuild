@@ -21,6 +21,7 @@ services:
         hostname: swbuild-2204
         ports:
           - 8024:8024
+          - 2222:2222
         tty: true
 volumes:
     homedir:

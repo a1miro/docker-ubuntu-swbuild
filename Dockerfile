@@ -137,8 +137,7 @@ RUN mkdir -p ${buildcachedir}
 RUN chown root:${docker_gid} ${buildcachedir}
 
 # Start SSH server
-EXPOSE 22
-
+EXPOSE 2222
 
 RUN git clone https://github.com/Microsoft/vcpkg.git ${vcpkgdir} 
 RUN /opt/apps/vcpkg/bootstrap-vcpkg.sh
@@ -147,10 +146,15 @@ RUN git clone https://gerrit.googlesource.com/git-repo ${repodir}
 
 RUN chown -R root:docker ${appsdir}
 
+# Listen SSH on port 2222
+RUN echo "Port 2222" >> /etc/ssh/sshd_config
+
 
 WORKDIR /
+
 # Copy the script to list users and groups
-COPY entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/docker_entrypoint.sh" ]
+
+# Set the default command to start SSH and keep the container running
 CMD /etc/init.d/ssh start && /bin/bash

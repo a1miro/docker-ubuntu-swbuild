@@ -10,7 +10,6 @@
 # and if not, it creates the home directory and copies the contents of /etc/skel. The generated script 
 # is copied to the container and executed as the Docker entrypoint script.
 
-
 # Creating user_list from existing users in /home folder of the host system
 user_list=""
 for d in /home/*; do
@@ -34,19 +33,27 @@ echo "user_list=\"${user_list}\"" >.env
 echo "docker_gid=${docker_gid}" >>.env
 
 # Create docker_entrypoint.sh script
-echo "user_list=\"${user_list}\"" > docker_entrypoint.sh
+echo "#!/bin/bash" > docker_entrypoint.sh
+echo "script_name=\$(basename \"\$0\")" >> docker_entrypoint.sh
+echo "user_list=\"${user_list}\"" >> docker_entrypoint.sh
 echo "IFS=','" >> docker_entrypoint.sh
 echo 'for entry in ${user_list}; do' >> docker_entrypoint.sh
 echo "    uname=\$(echo \$entry | cut -d: -f1)" >> docker_entrypoint.sh
+echo "    gname=\$(echo \$entry | cut -d: -f2)" >> docker_entrypoint.sh
 echo "    uid=\$(echo \$entry | cut -d: -f3)" >> docker_entrypoint.sh
 echo "    home_dir=\$(getent passwd \"\$uname\" | cut -d: -f6)" >> docker_entrypoint.sh
+echo "    printf \"Checking user \$uname:\$uid home: \${home_dir} - \"" >> docker_entrypoint.sh
 echo "    if [ -n \"\$home_dir\" ] && [ ! -d \"\$home_dir\" ]; then" >> docker_entrypoint.sh
 echo "        mkdir -p \"\$home_dir\"" >> docker_entrypoint.sh
 echo "        cp -rT /etc/skel \"\$home_dir\"" >> docker_entrypoint.sh
-echo "        chown -R \"\$uname\":\"\$uname\" \"\$home_dir\"" >> docker_entrypoint.sh
-echo "        echo \"Created home for \$uname at \$home_dir\"" >> docker_entrypoint.sh
+echo "        chown -R \"\$uname\":\"\$gname\" \"\$home_dir\"" >> docker_entrypoint.sh
+echo "        printf \"created \\n\"" >> docker_entrypoint.sh
+echo "    else" >> docker_entrypoint.sh
+echo "        printf \"skipped\\n\"" >> docker_entrypoint.sh
 echo "    fi" >> docker_entrypoint.sh
 echo "done" >> docker_entrypoint.sh
+echo "echo \"Script \$script_name successfully completed.\"" >> docker_entrypoint.sh
+echo 'exec "$@"' >> docker_entrypoint.sh
 
 # Make the script executable
 chmod +x docker_entrypoint.sh
