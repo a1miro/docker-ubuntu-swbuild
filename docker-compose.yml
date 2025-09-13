@@ -20,7 +20,7 @@ services:
             - buildcachedir:/opt/cache
         hostname: swbuild-2204
         ports:
-          - 8024:8024
+          - 8022:8022
           - 2222:2222
         tty: true
 volumes:
