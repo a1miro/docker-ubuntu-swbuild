@@ -1,5 +1,5 @@
-#·Composing IMG DDK build environment
-FROM ubuntu:22.04@sha256:da5fdf346e5313bef2a3dd2476c0251d48103213a5e3a0cb3afbb8909f3cf50f
+#·Composing build environment
+FROM ubuntu:22.04@sha256:104ae83764a5119017b8e8d6218fa0832b09df65aae7d5a6de29a85d813da2fb
 LABEL maintainer="andrei.mironenko@gmail.com"
 ENV REFRESHED_AT 2024-06-17
 ENV DEBIAN_FRONTEND=noninteractive
@@ -90,6 +90,9 @@ RUN apt-get -y install bash-completion
 # but its Yocto specific
 RUN pip3 install kas
 
+# Install python3-pip
+RUN apt-get -y install python3-venv
+
 # Create docker group
 RUN groupadd -g ${docker_gid} docker 
 
@@ -135,6 +138,7 @@ RUN awk -v path="${repodir}" -F= -i inplace '/^PATH/ { gsub(/"/, "", $2); print 
 ENV buildcachedir="/opt/cache"
 RUN mkdir -p ${buildcachedir}
 RUN chown root:${docker_gid} ${buildcachedir}
+RUN chmod 775 -R ${buildcachedir}
 
 # Start SSH server
 EXPOSE 2222
