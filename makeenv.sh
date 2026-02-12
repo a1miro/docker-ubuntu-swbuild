@@ -12,6 +12,7 @@
 
 # Creating user_list from existing users in /home folder of the host system
 user_list=""
+user_list_json=""
 for d in /home/*; do
   uname=$(basename "$d")
   uid=$(id -u "$uname" 2>/dev/null)
@@ -21,8 +22,8 @@ for d in /home/*; do
   gname="${gname// /}" 
   if [ "$uid" -ge 1000 ] 2>/dev/null; then
     user_list+="$uname:$gname:$uid:$gid,"
+    user_list_json+="\"$uname\":\"/home/$uname/projects\""
   fi
-
 done
 
 # Retrive the docker group GID
@@ -57,5 +58,10 @@ echo 'exec "$@"' >> docker_entrypoint.sh
 
 # Make the script executable
 chmod +x docker_entrypoint.sh
+
+# Creating http server JSON configuration file
+echo "{" > http-server-config.json
+echo "$user_list_json" >> http-server-config.json
+echo "}" >> http-server-config.json
 
 echo "Success: Docker environment file .env and docker_entrypoint.sh are created"

@@ -153,6 +153,9 @@ RUN chown -R root:docker ${appsdir}
 # Listen SSH on port 2222
 RUN echo "Port 2222" >> /etc/ssh/sshd_config
 
+# Copying files for HTTP server running on 8022
+COPY http-server-config.json /etc/
+COPY http-server.py /usr/local/bin/
 
 WORKDIR /
 
@@ -161,4 +164,4 @@ COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/docker_entrypoint.sh" ]
 
 # Set the default command to start SSH and keep the container running
-CMD /etc/init.d/ssh start && /bin/bash
+CMD /etc/init.d/ssh start && /usr/bin/python3 /usr/local/bin/http-server.py && /bin/bash
