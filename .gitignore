@@ -17,3 +17,4 @@ docker-compose.override.yml
 *.swo
 *.bak
 *.vscode
+http-server-config.json
