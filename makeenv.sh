@@ -22,7 +22,7 @@ for d in /home/*; do
   gname="${gname// /}" 
   if [ "$uid" -ge 1000 ] 2>/dev/null; then
     user_list+="$uname:$gname:$uid:$gid,"
-    user_list_json+="\"$uname\":\"/home/$uname/projects\""
+    user_list_json+="\"$uname\":\"/home/$uname/projects\","$'\n'
   fi
 done
 
@@ -61,6 +61,8 @@ chmod +x docker_entrypoint.sh
 
 # Creating http server JSON configuration file
 echo "{" > http-server-config.json
+# I need to remove last comma and new line symbol from the user list, otherwise JSON will fail to pass
+user_list_json=${user_list_json::-2}
 echo "$user_list_json" >> http-server-config.json
 echo "}" >> http-server-config.json
 
