@@ -39,7 +39,7 @@ class BuildServerHandler(SimpleHTTPRequestHandler):
         return None
 
 if __name__ == '__main__':
-    PORT = 8022
+    PORT = 8024
     server = HTTPServer(('0.0.0.0', PORT), BuildServerHandler)
     print(f'HTTP server running on http://0.0.0.0:{PORT}')
     server.serve_forever()

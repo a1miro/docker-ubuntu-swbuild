@@ -1,5 +1,6 @@
 #·Composing build environment
-FROM ubuntu:22.04@sha256:104ae83764a5119017b8e8d6218fa0832b09df65aae7d5a6de29a85d813da2fb
+#FROM ubuntu:22.04@sha256:104ae83764a5119017b8e8d6218fa0832b09df65aae7d5a6de29a85d813da2fb
+FROM ubuntu:24.04
 LABEL maintainer="andrei.mironenko@gmail.com"
 ENV REFRESHED_AT 2024-06-17
 ENV DEBIAN_FRONTEND=noninteractive
