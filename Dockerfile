@@ -88,7 +88,7 @@ RUN apt-get -y install bash-completion
 
 # Install kas tool, it's similar to Google repo and it can retrive multiple git repositories 
 # but its Yocto specific
-RUN pip3 install kas
+RUN apt-get -y install kas
 
 # Install python3-pip
 RUN apt-get -y install python3-venv
@@ -141,7 +141,7 @@ RUN chown root:${docker_gid} ${buildcachedir}
 RUN chmod 775 -R ${buildcachedir}
 
 # Start SSH server
-EXPOSE 2222
+EXPOSE 2224
 
 RUN git clone https://github.com/Microsoft/vcpkg.git ${vcpkgdir} 
 RUN /opt/apps/vcpkg/bootstrap-vcpkg.sh
@@ -151,7 +151,7 @@ RUN git clone https://gerrit.googlesource.com/git-repo ${repodir}
 RUN chown -R root:docker ${appsdir}
 
 # Listen SSH on port 2222
-RUN echo "Port 2222" >> /etc/ssh/sshd_config
+RUN echo "Port 2224" >> /etc/ssh/sshd_config
 
 # Copying files for HTTP server running on 8022
 COPY http-server-config.json /etc/
