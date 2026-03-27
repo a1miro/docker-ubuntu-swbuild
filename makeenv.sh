@@ -20,7 +20,7 @@ for d in /home/*; do
   gname=$(id -gn "$uname" 2>/dev/null)
   # Remove any spaces in the gname
   gname="${gname// /}" 
-  if [ "$uid" -ge 999 ] 2>/dev/null; then
+  if [ "$uid" -ge "1000" ] 2>/dev/null; then
     user_list+="$uname:$gname:$uid:$gid,"
     user_list_json+="\"$uname\":\"/home/$uname/projects\","$'\n'
   fi

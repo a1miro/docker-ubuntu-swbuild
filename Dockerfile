@@ -96,6 +96,10 @@ RUN apt-get -y install python3-venv
 # Create docker group
 RUN groupadd -g ${docker_gid} docker 
 
+# New ubuntu24.04 docker image introduces ubuntu user with uid=1000 and gid=1000,
+# it conflicts with the host local user. As a fix, I change uid and gid of the ubuntu user
+RUN usermod -u 10000 ubuntu && groupmod -g 10000 ubuntu
+
 # The code below recreates all local users and groups in the container.
 # The user_list variable is a comma-separated list of users in the format 
 # username:groupname:uid:gid
