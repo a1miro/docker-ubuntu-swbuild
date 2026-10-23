@@ -113,7 +113,7 @@ RUN IFS=','; for entry in ${user_list}; do \
       uid=$(echo $entry | cut -d: -f3); \
       gid=$(echo $entry | cut -d: -f4); \
       if ! getent group | awk -F: -v id="$gid" '$3 == id' | grep -q . ; then groupadd -g "$gid" "$gname"; fi; \
-      if ! id -u $uname >/dev/null 2>&1; then useradd -u "$uid" -g "$gid" "$uname" && usermod -aG docker "$uname"; fi; \
+      if ! id -u $uname >/dev/null 2>&1; then useradd -l -u "$uid" -g "$gid" "$uname" && usermod -aG docker "$uname"; fi; \
     done
 
 RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /etc/ssh/ssh_config
