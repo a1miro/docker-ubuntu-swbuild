@@ -168,4 +168,5 @@ COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/docker_entrypoint.sh" ]
 
 # Set the default command to start SSH and keep the container running
-CMD /etc/init.d/ssh start && /usr/bin/python3 /usr/local/bin/http-server.py && /bin/bash
+#CMD /etc/init.d/ssh start && /usr/bin/python3 /usr/local/bin/http-server.py && /bin/bash
+CMD /etc/init.d/ssh start && /usr/bin/python3 -m http.server -d /home 8024  && /bin/bash
