@@ -109,7 +109,7 @@ RUN IFS=','; for entry in ${user_list}; do \
       uid=$(echo $entry | cut -d: -f3); \
       gid=$(echo $entry | cut -d: -f4); \
       if ! getent group | awk -F: -v id="$gid" '$3 == id' | grep -q . ; then groupadd -g "$gid" "$gname"; fi; \
-      if ! id -u $uname >/dev/null 2>&1; then useradd -u "$uid" -g "$gid" "$uname" && usermod -aG docker "$uname"; fi; \
+      if ! id -u $uname >/dev/null 2>&1; then useradd -l -u "$uid" -g "$gid" "$uname" && usermod -aG docker "$uname"; fi; \
     done
 
 RUN sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking accept-new/' /etc/ssh/ssh_config
@@ -164,4 +164,4 @@ COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/docker_entrypoint.sh" ]
 
 # Set the default command to start SSH and keep the container running
-CMD /etc/init.d/ssh start && /usr/bin/python3 /usr/local/bin/http-server.py && /bin/bash
+CMD /etc/init.d/ssh start && /usr/bin/python3 -m http.server 8022 -d /home && /bin/bash
